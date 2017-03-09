@@ -1,21 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using InstallWizard.StageModels;
 
 namespace InstallWizard.Abstract
 {
-    abstract class Installation<TInstallationObject>
+    public abstract class Installation<TInstallationObject> where TInstallationObject : IInstallationObject, new()
     {
-        protected TInstallationObject InstallationObject { get; }
+        protected TInstallationObject InstallationObject { get; } = Activator.CreateInstance<TInstallationObject>();
 
-        public string InstallationName { get; }
-
-        protected Installation(string installationName)
-        {
-            InstallationName = installationName;
-
-            InstallationObject = default(TInstallationObject);
-        }
-
-        public abstract void Start();
+        public abstract void Start(); 
     }
 }

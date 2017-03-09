@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace InstallWizard.Concrete.Console
+namespace InstallWizard.Concrete.Form
 {
-    public class ConsoleViewModel
+    public class FormViewModel
     {
         public string Title { get; set; }
 
         public string Description { get; set; }
 
-        public string Body { get; set; }
-
-        public string UserPrompt { get; set; }
+        public List<Control> Controls { get; set; }
     }
 }

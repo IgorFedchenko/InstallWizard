@@ -7,7 +7,7 @@ using InstallWizard.StageModels;
 
 namespace InstallWizard.Abstract
 {
-    abstract class InstallationBuilder<TInstallationObject>
+    public abstract class InstallationBuilder<TInstallationObject> where TInstallationObject : IInstallationObject, new()
     {
         private readonly List<StageModel<TInstallationObject>> _stageModels = new List<StageModel<TInstallationObject>>();
          
@@ -18,6 +18,16 @@ namespace InstallWizard.Abstract
             return this;
         }
 
-        public abstract Installation<TInstallationObject> Build();
+        public Installation<TInstallationObject> Build()
+        {
+            if (!_stageModels.Any())
+            {
+                throw new Exception("Stages collection is empty!");
+            }
+
+            return GetInstallation(_stageModels);
+        }
+
+        protected abstract Installation<TInstallationObject> GetInstallation(List<StageModel<TInstallationObject>> stages);
     }
 }
