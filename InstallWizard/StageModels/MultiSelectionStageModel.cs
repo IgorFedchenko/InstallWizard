@@ -13,8 +13,14 @@ namespace InstallWizard.StageModels
     public abstract class MultiSelectionStageModel<TInstallationObject>
         : StageModel<TInstallationObject> where TInstallationObject : IInstallationObject, new()
     {
+        /// <summary>
+        /// Options for user
+        /// </summary>
         public abstract string[] Options { get; }
 
+        /// <summary>
+        /// Selected options indexes
+        /// </summary>
         protected int[] SelectedIndexes { get; private set; }
 
         public override ConsoleViewModel GetConsoleViewModel()

@@ -18,6 +18,9 @@ namespace InstallWizard.Helpers
         const int SW_HIDE = 0;
         const int SW_SHOW = 5;
 
+        /// <summary>
+        /// Hides the console window.
+        /// </summary>
         public static void HideConsoleWindow()
         {
             var handle = GetConsoleWindow();

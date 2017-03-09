@@ -8,6 +8,11 @@ using InstallWizard.StageModels;
 
 namespace InstallWizard.Concrete.Console
 {
+    /// <summary>
+    /// Concrete implementation of installation for console <see cref="Installation{TInstallationObject}"/>
+    /// </summary>
+    /// <typeparam name="TInstallationObject">The type of the installation object.</typeparam>
+    /// <seealso cref="InstallWizard.Abstract.Installation{TInstallationObject}" />
     class ConsoleInstallation<TInstallationObject> : Installation<TInstallationObject> where TInstallationObject : IInstallationObject, new()
     {
         private readonly List<StageModel<TInstallationObject>> _stages;
@@ -18,6 +23,9 @@ namespace InstallWizard.Concrete.Console
             _stages = stages;
         }
 
+        /// <summary>
+        /// Starts installation process
+        /// </summary>
         public override void Start()
         {
             System.Console.WriteLine("Starting installation");

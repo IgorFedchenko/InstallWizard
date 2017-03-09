@@ -10,6 +10,11 @@ using InstallWizard.StageModels;
 
 namespace InstallWizard.Concrete.Form
 {
+    /// <summary>
+    /// Concrete implementation of installation for GUI (WinForms) <see cref="Installation{TInstallationObject}"/>
+    /// </summary>
+    /// <typeparam name="TInstallationObject">The type of the installation object.</typeparam>
+    /// <seealso cref="InstallWizard.Abstract.Installation{TInstallationObject}" />
     class FormInstallation<TInstallationObject> : Installation<TInstallationObject> where TInstallationObject : IInstallationObject, new()
     {
         private readonly List<StageModel<TInstallationObject>> _stages;
@@ -21,6 +26,9 @@ namespace InstallWizard.Concrete.Form
             _stages = stages;
         }
 
+        /// <summary>
+        /// Starts installation process
+        /// </summary>
         public override void Start()
         {
             var form = CreateForm();

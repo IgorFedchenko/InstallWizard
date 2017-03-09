@@ -13,8 +13,14 @@ namespace InstallWizard.StageModels
     public abstract class SingleSelectionStageModel<TInstallationObject> 
         : StageModel<TInstallationObject> where TInstallationObject : IInstallationObject, new()
     {
+        /// <summary>
+        /// Options for user
+        /// </summary>
         public abstract string[] Options { get; }
 
+        /// <summary>
+        /// Selected option index
+        /// </summary>
         protected int SelectedIndex { get; private set; }
 
         public override ConsoleViewModel GetConsoleViewModel()
