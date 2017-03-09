@@ -15,34 +15,69 @@ namespace InstallWizard.Concrete.Form
         private readonly List<StageModel<TInstallationObject>> _stages;
         private bool _formIsClosed = false;
 
-        public FormInstallation(List<StageModel<TInstallationObject>> stages)
+        public FormInstallation(string installationName, List<StageModel<TInstallationObject>> stages)
+            : base(installationName)
         {
             _stages = stages;
         }
 
         public override void Start()
         {
-            var form = new InstallationForm();
-            form.FormClosing += (s, e) => HandleFormClosed();
-            Task.Run(() => ShowForm(form));
-            while (Application.OpenForms.Count == 0) { }
+            var form = CreateForm();
+            ShowForm(form);
 
             ConsoleWindowManager.HideConsoleWindow();
             
             foreach (var stageModel in _stages)
             {
-                var viewModel = stageModel.GetFormViewModel();
-                var view = new FormStageView(viewModel);
-                form.BeginInvoke((Action) (() => view.Draw(form.InstallatoinPanelObject)));
-                form.StageFinished.WaitOne();
-
-                if (_formIsClosed)
+                if (!DisplayStage(form, stageModel))
                     return;
-
-                stageModel.ParseFormInput(viewModel.Controls.ToArray());
-                stageModel.UpdateInstallationObject(InstallationObject);
             }
 
+            MakeInstallation(form);
+        }
+
+        private InstallationForm CreateForm()
+        {
+            var form = new InstallationForm
+            {
+                Text = InstallationName
+            };
+            form.FormClosing += (s, e) => HandleFormClosed();
+
+            return form;
+        }
+
+        private void ShowForm(InstallationForm form)
+        {
+            Task.Run(() =>
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(form);
+            });
+
+            form.Opened.WaitOne();
+        }
+
+        private bool DisplayStage(InstallationForm form, StageModel<TInstallationObject> stageModel)
+        {
+            var viewModel = stageModel.GetFormViewModel();
+            var view = new FormStageView(viewModel);
+            form.BeginInvoke((Action)(() => view.Draw(form.InstallatoinPanelObject)));
+            form.StageFinished.WaitOne();
+
+            if (_formIsClosed)
+                return true;
+
+            stageModel.ParseFormInput(viewModel.Controls.ToArray());
+            stageModel.UpdateInstallationObject(InstallationObject);
+
+            return false;
+        }
+
+        private void MakeInstallation(InstallationForm form)
+        {
             InvokeAction(form, () => SetLabel(form.InstallatoinPanelObject, "Installing components..."));
             InvokeAction(form, () =>
             {
@@ -65,13 +100,6 @@ namespace InstallWizard.Concrete.Form
 
             InvokeAction(form, () => form.NextButton.Enabled = true);
             form.StageFinished.WaitOne();
-        }
-
-        private void ShowForm(System.Windows.Forms.Form form)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(form);
         }
 
         private void SetLabel(Panel installationPanel, string text)

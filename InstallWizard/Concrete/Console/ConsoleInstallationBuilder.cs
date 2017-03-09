@@ -10,9 +10,9 @@ namespace InstallWizard.Concrete.Console
 {
     public class ConsoleInstallationBuilder<TInstallationObject> : InstallationBuilder<TInstallationObject> where TInstallationObject : IInstallationObject, new()
     {
-        protected override Installation<TInstallationObject> GetInstallation(List<StageModel<TInstallationObject>> stages)
+        protected override Installation<TInstallationObject> GetInstallation(string installationName, List<StageModel<TInstallationObject>> stages)
         {
-            return new ConsoleInstallation<TInstallationObject>(stages);
+            return new ConsoleInstallation<TInstallationObject>(installationName, stages);
         }
     }
 }

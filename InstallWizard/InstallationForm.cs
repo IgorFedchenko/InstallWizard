@@ -19,9 +19,18 @@ namespace InstallWizard
 
         public AutoResetEvent StageFinished = new AutoResetEvent(false);
 
+        public ManualResetEvent Opened = new ManualResetEvent(false);
+
         public InstallationForm()
         {
             InitializeComponent();
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            Opened.Set();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

@@ -10,10 +10,18 @@ namespace InstallWizard.Abstract
     public abstract class InstallationBuilder<TInstallationObject> where TInstallationObject : IInstallationObject, new()
     {
         private readonly List<StageModel<TInstallationObject>> _stageModels = new List<StageModel<TInstallationObject>>();
+        private string _installationName = string.Empty;
          
         public InstallationBuilder<TInstallationObject> WithStage(StageModel<TInstallationObject> stage)
         {
             _stageModels.Add(stage);
+
+            return this;
+        }
+
+        public InstallationBuilder<TInstallationObject> WithName(string installationName)
+        {
+            _installationName = installationName;
 
             return this;
         }
@@ -25,9 +33,9 @@ namespace InstallWizard.Abstract
                 throw new Exception("Stages collection is empty!");
             }
 
-            return GetInstallation(_stageModels);
+            return GetInstallation(_installationName, _stageModels);
         }
 
-        protected abstract Installation<TInstallationObject> GetInstallation(List<StageModel<TInstallationObject>> stages);
+        protected abstract Installation<TInstallationObject> GetInstallation(string installationName, List<StageModel<TInstallationObject>> stages);
     }
 }

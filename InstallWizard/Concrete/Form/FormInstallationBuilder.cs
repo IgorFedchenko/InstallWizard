@@ -10,9 +10,9 @@ namespace InstallWizard.Concrete.Form
 {
     public class FormInstallationBuilder<TInstallationObject> : InstallationBuilder<TInstallationObject> where TInstallationObject : IInstallationObject, new()
     {
-        protected override Installation<TInstallationObject> GetInstallation(List<StageModel<TInstallationObject>> stages)
+        protected override Installation<TInstallationObject> GetInstallation(string installationName, List<StageModel<TInstallationObject>> stages)
         {
-            return new FormInstallation<TInstallationObject>(stages);
+            return new FormInstallation<TInstallationObject>(installationName, stages);
         }
     }
 }

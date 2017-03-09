@@ -12,7 +12,8 @@ namespace InstallWizard.Concrete.Console
     {
         private readonly List<StageModel<TInstallationObject>> _stages;
 
-        public ConsoleInstallation(List<StageModel<TInstallationObject>> stages)
+        public ConsoleInstallation(string installationName, List<StageModel<TInstallationObject>> stages) 
+            : base(installationName)
         {
             _stages = stages;
         }
