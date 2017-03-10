@@ -16,8 +16,13 @@ namespace TestInstallation
     {
         static void Main(string[] args)
         {
-            var builder = new ConsoleInstallationBuilder<InstallationObject>();
-            // var builder = new FormInstallationBuilder<InstallationObject>();
+            InstallationBuilder<InstallationObject> builder;
+
+            if (args.Contains("--console") || args.Contains("-c"))
+                builder = new ConsoleInstallationBuilder<InstallationObject>();
+            else
+                builder = new FormInstallationBuilder<InstallationObject>();
+
             var installation = builder.WithStage(new VersionSelection())
                                       .WithStage(new ComponentsSelection())
                                       .Build();
