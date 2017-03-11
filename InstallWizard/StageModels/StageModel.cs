@@ -14,7 +14,7 @@ namespace InstallWizard.StageModels
     /// This is a base class for all kinds of stages of installation process
     /// </summary>
     /// <typeparam name="TInstallationObject">The type of the installation object.</typeparam>
-    public abstract class StageModel<TInstallationObject> where TInstallationObject : IInstallationObject, new()
+    public abstract class StageModel<TInstallationObject> where TInstallationObject : InstallationObjectBase, new()
     {
         /// <summary>
         /// Title of installation stage

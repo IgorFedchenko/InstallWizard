@@ -31,21 +31,19 @@ namespace TestInstallation
         }
     }
 
-    class InstallationObject : IInstallationObject
+    class InstallationObject : InstallationObjectBase
     {
         public int Version { get; set; }
 
         public string[] Components { get; set; }
 
-        public event Action<string> ProcessUpdated;
-
-        public bool Install(out string error)
+        public override bool Install(out string error)
         {
-            ProcessUpdated?.Invoke("Started");
+            NotifyOfProcessUpdate("Started");
 
             File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "result.txt"), JsonConvert.SerializeObject(this, Formatting.Indented));
 
-            ProcessUpdated?.Invoke("Finished");
+            NotifyOfProcessUpdate("Finished");
 
             error = null;
             return true;
@@ -58,9 +56,9 @@ namespace TestInstallation
 
         public override string Description => "Select version to install";
 
-        public override void UpdateInstallationObject(InstallationObject installationObject)
+        public override void UpdateInstallationObject(InstallationObject installationObjectBase)
         {
-            installationObject.Version = SelectedIndex == 0 ? 1 : 2;
+            installationObjectBase.Version = SelectedIndex == 0 ? 1 : 2;
         }
 
         public override string[] Options => new string[]
@@ -76,9 +74,9 @@ namespace TestInstallation
 
         public override string Description => "Select components to install";
 
-        public override void UpdateInstallationObject(InstallationObject installationObject)
+        public override void UpdateInstallationObject(InstallationObject installationObjectBase)
         {
-            installationObject.Components = SelectedIndexes.Select(index => Options[index]).ToArray();
+            installationObjectBase.Components = SelectedIndexes.Select(index => Options[index]).ToArray();
         }
 
         public override string[] Options => new string[]

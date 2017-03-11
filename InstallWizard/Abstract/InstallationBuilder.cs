@@ -13,8 +13,8 @@ namespace InstallWizard.Abstract
     /// This class provides methods to configure and create installation.
     /// To use it, you will need to instantiate any concrete implementation (<see cref="ConsoleInstallationBuilder{TInstallationObject}"/> and <see cref="FormInstallationBuilder{TInstallationObject}"/>)
     /// </summary>
-    /// <typeparam name="TInstallationObject">Your custom type, providing installation details <see cref="IInstallationObject"/></typeparam>
-    public abstract class InstallationBuilder<TInstallationObject> where TInstallationObject : IInstallationObject, new()
+    /// <typeparam name="TInstallationObject">Your custom type, providing installation details <see cref="InstallationObjectBase"/></typeparam>
+    public abstract class InstallationBuilder<TInstallationObject> where TInstallationObject : InstallationObjectBase, new()
     {
         private readonly List<StageModel<TInstallationObject>> _stageModels = new List<StageModel<TInstallationObject>>();
         private string _installationName = string.Empty;

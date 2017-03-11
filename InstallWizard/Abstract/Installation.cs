@@ -8,7 +8,7 @@ namespace InstallWizard.Abstract
     /// This class performs all required actions to install components using your InstallationObject
     /// </summary>
     /// <typeparam name="TInstallationObject">The type of the installation object.</typeparam>
-    public abstract class Installation<TInstallationObject> where TInstallationObject : IInstallationObject, new()
+    public abstract class Installation<TInstallationObject> where TInstallationObject : InstallationObjectBase, new()
     {
         /// <summary>
         /// Name of the installation (usually name of the package).

@@ -11,7 +11,7 @@ using InstallWizard.Concrete.Form;
 namespace InstallWizard.StageModels
 {
     public abstract class MultiSelectionStageModel<TInstallationObject>
-        : StageModel<TInstallationObject> where TInstallationObject : IInstallationObject, new()
+        : StageModel<TInstallationObject> where TInstallationObject : InstallationObjectBase, new()
     {
         /// <summary>
         /// Options for user

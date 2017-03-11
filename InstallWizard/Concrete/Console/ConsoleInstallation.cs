@@ -13,7 +13,7 @@ namespace InstallWizard.Concrete.Console
     /// </summary>
     /// <typeparam name="TInstallationObject">The type of the installation object.</typeparam>
     /// <seealso cref="InstallWizard.Abstract.Installation{TInstallationObject}" />
-    class ConsoleInstallation<TInstallationObject> : Installation<TInstallationObject> where TInstallationObject : IInstallationObject, new()
+    class ConsoleInstallation<TInstallationObject> : Installation<TInstallationObject> where TInstallationObject : InstallationObjectBase, new()
     {
         private readonly List<StageModel<TInstallationObject>> _stages;
 

@@ -8,7 +8,7 @@ using InstallWizard.StageModels;
 
 namespace InstallWizard.Concrete.Console
 {
-    public class ConsoleInstallationBuilder<TInstallationObject> : InstallationBuilder<TInstallationObject> where TInstallationObject : IInstallationObject, new()
+    public class ConsoleInstallationBuilder<TInstallationObject> : InstallationBuilder<TInstallationObject> where TInstallationObject : InstallationObjectBase, new()
     {
         protected override Installation<TInstallationObject> GetInstallation(string installationName, List<StageModel<TInstallationObject>> stages)
         {

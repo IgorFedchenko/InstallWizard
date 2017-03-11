@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\InstallationBuilder.cs" />
-    <Compile Include="Abstract\IInstallationObject.cs" />
+    <Compile Include="Abstract\InstallationObjectBase.cs" />
     <Compile Include="Concrete\Console\ConsoleInstallation.cs" />
     <Compile Include="Concrete\Console\ConsoleInstallationBuilder.cs" />
     <Compile Include="Concrete\Console\ConsoleStageView.cs" />
