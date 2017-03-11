@@ -34,9 +34,8 @@ namespace InstallWizard.Concrete.Form
             controls.Add(new Label()
             {
                 Text = _viewModel.Description,
+                Width = rootPanel.Width,
             });
-
-            controls.AddRange(_viewModel.Controls.ToArray());
 
             var table = new TableLayoutPanel()
             {
@@ -44,6 +43,13 @@ namespace InstallWizard.Concrete.Form
                 ColumnCount = 1,
                 Dock = DockStyle.Fill
             };
+
+            foreach (var control in _viewModel.Controls)
+            {
+                control.Width = table.Width;
+            }
+
+            controls.AddRange(_viewModel.Controls.ToArray());
 
             table.Controls.AddRange(controls.ToArray());
 

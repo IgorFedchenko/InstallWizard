@@ -21,9 +21,9 @@ namespace InstallWizard.Abstract
         /// </summary>
         /// <param name="error">The error description - if any. It is used if function returns <c>false</c></param>
         /// <returns><c>true</c>, if installation succeed, and <c>false</c> otherwise</returns>
-        public bool Install(out string error)
+        public bool Install(out Exception error)
         {
-            error = string.Empty;
+            error = null;
 
             try
             {
@@ -32,7 +32,7 @@ namespace InstallWizard.Abstract
             }
             catch (Exception ex)
             {
-                error = ex.Message;
+                error = ex;
                 return false;
             }
         }

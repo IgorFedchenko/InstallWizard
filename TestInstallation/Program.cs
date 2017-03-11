@@ -25,6 +25,8 @@ namespace TestInstallation
 
             var installation = builder.WithStage(new VersionSelection())
                                       .WithStage(new ComponentsSelection())
+                                      .WithStage(new SampleInput())
+                                      .WithStage(new Confirmation())
                                       .Build();
 
             installation.Start();
@@ -33,6 +35,8 @@ namespace TestInstallation
 
     class InstallationObject : InstallationObjectBase
     {
+        public string Text { get; set; }
+
         public int Version { get; set; }
 
         public string[] Components { get; set; }
@@ -44,6 +48,34 @@ namespace TestInstallation
             File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "result.txt"), JsonConvert.SerializeObject(this, Formatting.Indented));
 
             NotifyOfProcessUpdate("Finished");
+        }
+    }
+
+    class Confirmation : ReadonlyTextStage<InstallationObject>
+    {
+        private string _text;
+
+        public override string Title => "Confirmation";
+
+        public override string Description => "confirm installation object stage";
+
+        protected override string Text => _text;
+
+        public override void Initialize(InstallationObject installationObject)
+        {
+            _text = JsonConvert.SerializeObject(installationObject);
+        }
+    }
+
+    class SampleInput : StringInputStageModel<InstallationObject>
+    {
+        public override string Title => "Sample input";
+
+        public override string Description => "Input some text here";
+
+        public override void UpdateInstallationObject(InstallationObject installationObject)
+        {
+            installationObject.Text = Input;
         }
     }
 

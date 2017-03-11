@@ -41,5 +41,24 @@ namespace InstallWizard.StageModels
         /// </summary>
         /// <param name="installationObject">The installation object.</param>
         public abstract void UpdateInstallationObject(TInstallationObject installationObject);
+
+        /// <summary>
+        /// Checks if this stage is required depending on installation object stage. Defaults to true/
+        /// </summary>
+        /// <param name="installationObject">The installation object.</param>
+        /// <returns>Return true, if this stage is needed, and false otherwise</returns>
+        /// <remarks>Override this function to skip stage in some conditions</remarks>
+        public virtual bool Required(TInstallationObject installationObject)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Override this to initialize stage stage with data from installation object
+        /// </summary>
+        /// <param name="installationObject">The installation object.</param>
+        public virtual void Initialize(TInstallationObject installationObject)
+        {
+        }
     }
 }

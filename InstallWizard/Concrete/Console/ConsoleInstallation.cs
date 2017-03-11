@@ -15,44 +15,51 @@ namespace InstallWizard.Concrete.Console
     /// <seealso cref="InstallWizard.Abstract.Installation{TInstallationObject}" />
     class ConsoleInstallation<TInstallationObject> : Installation<TInstallationObject> where TInstallationObject : InstallationObjectBase, new()
     {
-        private readonly List<StageModel<TInstallationObject>> _stages;
-
-        public ConsoleInstallation(string installationName, List<StageModel<TInstallationObject>> stages) 
-            : base(installationName)
+        public ConsoleInstallation(string installationName, List<StageModel<TInstallationObject>> stages)
+            : base(installationName, stages)
         {
-            _stages = stages;
         }
 
-        /// <summary>
-        /// Starts installation process
-        /// </summary>
-        public override void Start()
+        protected override void OnStart()
         {
             System.Console.WriteLine("Starting installation");
+        }
 
-            foreach (var stageModel in _stages)
-            {
-                System.Console.Write(GetView(stageModel));
+        protected override bool HandleStage(StageModel<TInstallationObject> stage)
+        {
+            System.Console.Write(GetView(stage));
 
-                var input = System.Console.ReadLine();
+            var input = System.Console.ReadLine();
 
-                stageModel.ParseConsoleInput(input);
+            stage.ParseConsoleInput(input);
 
-                stageModel.UpdateInstallationObject(InstallationObject);
-            }
+            stage.UpdateInstallationObject(InstallationObject);
 
+            return true;
+        }
+
+        protected override void HandleInstallationProcessStarted()
+        {
             System.Console.WriteLine("\nInstalling components...\n");
+        }
 
-            InstallationObject.ProcessUpdated += state => System.Console.WriteLine("Installation: " + state);
+        protected override void HandleInstallationProcessUpdated(string updateMessage)
+        {
+            System.Console.WriteLine("Installation: " + updateMessage);
+        }
 
-            string error;
-            var success = InstallationObject.Install(out error);
+        protected override void HandleInstallationProcessSucceed()
+        {
+            System.Console.WriteLine("\nInstallation finished");
+        }
 
-            if (success)
-                System.Console.WriteLine("\nInstallation finished");
-            else
-                System.Console.WriteLine("\nInstallation failed: " + error);
+        protected override void HandleInstallationProcessFailed(Exception error)
+        {
+            System.Console.WriteLine("\nInstallation failed: " + error);
+        }
 
+        protected override void HandleInstallationProcessFinished()
+        {
             System.Console.ReadLine();
         }
 

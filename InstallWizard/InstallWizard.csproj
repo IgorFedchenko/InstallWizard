@@ -69,8 +69,10 @@
     <Compile Include="Abstract\Installation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StageModels\MultiSelectionStageModel.cs" />
+    <Compile Include="StageModels\ReadonlyTextStage.cs" />
     <Compile Include="StageModels\SingleSelectionStageModel.cs" />
     <Compile Include="StageModels\StageModel.cs" />
+    <Compile Include="StageModels\StringInputStageModel.cs" />
     <EmbeddedResource Include="InstallationForm.resx">
       <DependentUpon>InstallationForm.cs</DependentUpon>
     </EmbeddedResource>
