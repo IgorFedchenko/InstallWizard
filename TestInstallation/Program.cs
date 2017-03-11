@@ -37,16 +37,13 @@ namespace TestInstallation
 
         public string[] Components { get; set; }
 
-        public override bool Install(out string error)
+        protected override void Install()
         {
             NotifyOfProcessUpdate("Started");
 
             File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "result.txt"), JsonConvert.SerializeObject(this, Formatting.Indented));
 
             NotifyOfProcessUpdate("Finished");
-
-            error = null;
-            return true;
         }
     }
 

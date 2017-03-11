@@ -17,6 +17,33 @@ namespace InstallWizard.Abstract
         public event Action<string> ProcessUpdated;
 
         /// <summary>
+        /// Describes installation procedure, i.e. running scripts, configuring system and etc.
+        /// </summary>
+        /// <param name="error">The error description - if any. It is used if function returns <c>false</c></param>
+        /// <returns><c>true</c>, if installation succeed, and <c>false</c> otherwise</returns>
+        public bool Install(out string error)
+        {
+            error = string.Empty;
+
+            try
+            {
+                Install();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Put all your installation process here, using self properties, configured on installation stages.
+        /// Ti indicate error, throw an exception
+        /// </summary>
+        protected abstract void Install();
+
+        /// <summary>
         /// Notifies the of installation process update.
         /// </summary>
         /// <param name="text">The text.</param>
@@ -24,12 +51,5 @@ namespace InstallWizard.Abstract
         {
             ProcessUpdated?.Invoke(text);
         }
-
-        /// <summary>
-        /// Put all your installation process here, using self properties, configured on installation stages
-        /// </summary>
-        /// <param name="error">The error description - if any. It is used if function returns <c>false</c></param>
-        /// <returns><c>true</c>, if installation succeed, and <c>false</c> otherwise</returns>
-        public abstract bool Install(out string error);
     }
 }
