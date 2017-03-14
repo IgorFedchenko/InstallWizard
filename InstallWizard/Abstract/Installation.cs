@@ -62,6 +62,8 @@ namespace InstallWizard.Abstract
 
             InstallationObject.ProcessUpdated += HandleInstallationProcessUpdated;
 
+            HandleInstallationProcessStarted();
+
             Exception error;
             var success = InstallationObject.Install(out error);
 
