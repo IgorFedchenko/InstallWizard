@@ -11,7 +11,7 @@ namespace InstallWizard.Abstract
     /// <typeparam name="TInstallationObject">The type of the installation object.</typeparam>
     public abstract class Installation<TInstallationObject> where TInstallationObject : InstallationObjectBase, new()
     {
-        private List<StageModel<TInstallationObject>> _stages;
+        private readonly List<StageModel<TInstallationObject>> _stages;
 
         /// <summary>
         /// Name of the installation (usually name of the package).
@@ -24,14 +24,16 @@ namespace InstallWizard.Abstract
         /// <returns></returns>
         protected IEnumerable<StageModel<TInstallationObject>> InstallationStages()
         {
-            StageModel<TInstallationObject> nextStage = _stages.FirstOrDefault(s => s.Required(InstallationObject));
-            while (nextStage != null)
-            {
-                _stages.Remove(nextStage);
-                yield return nextStage;
+            StageModel<TInstallationObject> nextStage;
 
-                nextStage = _stages.FirstOrDefault(s => s.Required(InstallationObject));
-            }
+            do
+            {
+                nextStage = _stages.FirstOrDefault(s => s.Required(InstallationObject) && !s.IsHandled);
+
+                if (nextStage != null)
+                    yield return nextStage;
+
+            } while (nextStage != null);
         }
 
         /// <summary>
@@ -58,6 +60,19 @@ namespace InstallWizard.Abstract
 
                 if (!HandleStage(installationStage))
                     return;
+
+                try
+                {
+                    installationStage.Validate(InstallationObject);
+                }
+                catch (Exception ex)
+                {
+                    ShowValidationErrorMessage(ex.Message);
+                    continue;
+                }
+
+                installationStage.UpdateInstallationObject(InstallationObject);
+                installationStage.IsHandled = true;
             }
 
             InstallationObject.ProcessUpdated += HandleInstallationProcessUpdated;
@@ -86,6 +101,12 @@ namespace InstallWizard.Abstract
         /// <param name="stage">The stage to handle</param>
         /// <returns><c>true</c>, if stage is handled, and <c>false</c> if installation should be canceled</returns>
         protected abstract bool HandleStage(StageModel<TInstallationObject> stage);
+
+        /// <summary>
+        /// Shows the validation error message to the user
+        /// </summary>
+        /// <param name="message">The message to show.</param>
+        protected abstract void ShowValidationErrorMessage(string message);
 
         /// <summary>
         /// Called before the installation process, defined by user in installation object, starts

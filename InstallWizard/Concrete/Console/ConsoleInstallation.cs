@@ -33,9 +33,13 @@ namespace InstallWizard.Concrete.Console
 
             stage.ParseConsoleInput(input);
 
-            stage.UpdateInstallationObject(InstallationObject);
-
             return true;
+        }
+
+        protected override void ShowValidationErrorMessage(string message)
+        {
+            System.Console.WriteLine("Wrong input: " + message + " (Press Enter to continue)\n");
+            System.Console.ReadLine();
         }
 
         protected override void HandleInstallationProcessStarted()

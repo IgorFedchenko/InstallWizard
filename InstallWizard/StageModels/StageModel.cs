@@ -60,5 +60,20 @@ namespace InstallWizard.StageModels
         public virtual void Initialize(TInstallationObject installationObject)
         {
         }
+
+        /// <summary>
+        /// Override this to perform validation when user click Next
+        /// </summary>
+        /// <param name="installationObject">The installation object</param>
+        /// <remarks>Throw an exception to initiate validation error. 
+        /// Exception message wil be shown to the user</remarks>
+        public virtual void Validate(TInstallationObject installationObject)
+        {
+        }
+
+        /// <summary>
+        /// Is set by installation when this stage is handled
+        /// </summary>
+        internal bool IsHandled { get; set; }
     }
 }

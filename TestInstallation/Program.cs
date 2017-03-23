@@ -77,6 +77,12 @@ namespace TestInstallation
         {
             installationObject.Text = Input;
         }
+
+        public override void Validate(InstallationObject installationObject)
+        {
+            if (Input.Length == 0)
+                throw new Exception("You need to write some text!");
+        }
     }
 
     class VersionSelection : SingleSelectionStageModel<InstallationObject>

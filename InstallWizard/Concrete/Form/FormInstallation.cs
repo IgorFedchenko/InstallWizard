@@ -44,9 +44,13 @@ namespace InstallWizard.Concrete.Form
                 return false;
 
             stage.ParseFormInput(viewModel.Controls.ToArray());
-            stage.UpdateInstallationObject(InstallationObject);
 
             return true;
+        }
+
+        protected override void ShowValidationErrorMessage(string message)
+        {
+            MessageBox.Show("Wrong input: " + message);
         }
 
         protected override void HandleInstallationProcessStarted()
